@@ -39,6 +39,7 @@ func (h *AuthorHandler) Route(app *gin.Engine) {
 // @Description Create a new author in the system.
 // @Accept json
 // @Produce json
+// @Tags Author
 // @Param author body dto.AuthorReq true "Author data"
 // @Success 201 {object} dto.SuccessResponse[string]
 // @Failure 400 {object} dto.ErrorResponse
@@ -69,6 +70,7 @@ func (h *AuthorHandler) create(c *gin.Context) {
 // @Summary Get a list of authors
 // @Description Get a list of authors.
 // @Produce json
+// @Tags Author
 // @Param q query string false "Author's name"
 // @Param s query int false "Data offset"
 // @Param l query int false "Data limit"
@@ -108,6 +110,7 @@ func (h *AuthorHandler) getList(c *gin.Context) {
 // @Summary Get author by ID
 // @Description Get an author's detail by their ID.
 // @Produce json
+// @Tags Author
 // @Param id path int true "Author's ID"
 // @Success 200 {object} dto.SuccessResponse[dto.AuthorRes]
 // @Failure 400 {object} dto.ErrorResponse
@@ -147,6 +150,7 @@ func (h *AuthorHandler) getByID(c *gin.Context) {
 // @Description Update an existing author's information.
 // @Accept json
 // @Produce json
+// @Tags Author
 // @Security BearerAuth
 // @Param id path int true "Author's ID"
 // @Param author body dto.AuthorUpdateReq true "Author's updated data"
@@ -194,6 +198,7 @@ func (h *AuthorHandler) update(c *gin.Context) {
 // @Summary Delete an author
 // @Description Delete an author by their ID.
 // @Produce json
+// @Tags Author
 // @Param id path int true "Author's ID"
 // @Success 200 {object} dto.SuccessResponse[string]
 // @Failure 400 {object} dto.ErrorResponse

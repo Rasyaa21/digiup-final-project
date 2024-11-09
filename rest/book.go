@@ -36,6 +36,7 @@ func (h *BookHandler) Route(app *gin.Engine) {
 // @Description Create a new book.
 // @Accept json
 // @Produce json
+// @Tags Book
 // @Param book body dto.BookReq true "Book data"
 // @Success 201 {object} dto.SuccessResponse[string]
 // @Failure 400 {object} dto.ErrorResponse
@@ -64,6 +65,7 @@ func (h *BookHandler) create(c *gin.Context) {
 // @Summary Get a list of books
 // @Description Retrieve a list of books.
 // @Produce json
+// @Tags Book
 // @Param s query int false "Data offset"
 // @Param l query int false "Data limit"
 // @Success 200 {object} dto.SuccessResponse[[]dto.BookRes]
@@ -95,6 +97,7 @@ func (h *BookHandler) getList(c *gin.Context) {
 // @Summary Get book by ID
 // @Description Retrieve a book by ID.
 // @Produce json
+// @Tags Book
 // @Param id path int true "Book ID"
 // @Success 200 {object} dto.SuccessResponse[dto.BookRes]
 // @Failure 400 {object} dto.ErrorResponse
@@ -133,6 +136,7 @@ func (h *BookHandler) getByID(c *gin.Context) {
 // @Description Update book information.
 // @Accept json
 // @Produce json
+// @Tags Book
 // @Param id path int true "Book ID"
 // @Param book body dto.BookUpdateReq true "Updated book data"
 // @Success 200 {object} dto.SuccessResponse[any]
@@ -176,6 +180,7 @@ func (h *BookHandler) update(c *gin.Context) {
 // @Summary Delete a book
 // @Description Delete a book by ID.
 // @Produce json
+// @Tags Book
 // @Param id path int true "Book ID"
 // @Success 200 {object} dto.SuccessResponse[string]
 // @Failure 400 {object} dto.ErrorResponse

@@ -36,6 +36,7 @@ func (h *PublisherHandler) Route(app *gin.Engine) {
 //	@Description Create a publisher.
 //	@Accept json
 //	@Produce json
+//	 @Tags Publisher
 //	@Security BearerAuth
 //	@Param detail body dto.PublisherUpdateReq true "Publisher's detail"
 //	@Success 201 {object} dto.SuccessResponse[any]
@@ -68,6 +69,7 @@ func (h *PublisherHandler) create(c *gin.Context) {
 //	@Summary Get a list of publishers
 //	@Description Get a list of publishers.
 //	@Produce json
+//	 @Tags Publisher
 //	@Param q query string false "Publisher's name"
 //	@Param s query int false "Data offset"
 //	@Param l query int false "Data limit"
@@ -108,6 +110,7 @@ func (h *PublisherHandler) getList(c *gin.Context) {
 //	@Summary Get a publisher's detail
 //	@Description Get a publisher's detail.
 //	@Produce json
+//	 @Tags Publisher
 //	@Param id path int true "Publisher's ID"
 //	@Success 200 {object} dto.SuccessResponse[dto.PublisherResp]
 //	@Failure 400 {object} dto.ErrorResponse
@@ -148,6 +151,7 @@ func (h *PublisherHandler) getByID(c *gin.Context) {
 //	@Description Update a publisher's detail.
 //	@Accept json
 //	@Produce json
+//	 @Tags Publisher
 //	@Security BearerAuth
 //	@Param id path int true "Publisher's ID"
 //	@Param detail body dto.PublisherUpdateReq true "Publisher's detail"
@@ -198,6 +202,7 @@ func (h *PublisherHandler) update(c *gin.Context) {
 //	@Summary Delete a publisher
 //	@Description Delete a publisher.
 //	@Produce json
+//	 @Tags Publisher
 //	@Security BearerAuth
 //	@Param id path int true "Publisher's ID"
 //	@Success 200 {object} dto.SuccessResponse[any]

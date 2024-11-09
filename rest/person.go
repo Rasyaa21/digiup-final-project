@@ -36,6 +36,7 @@ func (h *PersonHandler) Route(app *gin.Engine) {
 //	@Summary Get a list of person
 //	@Description Get a list of person.
 //	@Produce json
+//	 @Tags Person
 //	@Param q query string false "Person's name"
 //	@Param s query int false "Data offset"
 //	@Param l query int false "Data limit"
@@ -76,6 +77,7 @@ func (h *PersonHandler) getList(c *gin.Context) {
 //	@Summary Get a person's detail
 //	@Description Get a person's detail.
 //	@Produce json
+//	 @Tags Person
 //	@Param id path int true "Person's ID"
 //	@Success 200 {object} dto.SuccessResponse[dto.PersonDetailResp]
 //	@Failure 400 {object} dto.ErrorResponse
@@ -116,6 +118,7 @@ func (h *PersonHandler) getByID(c *gin.Context) {
 //	@Description Update a person's detail.
 //	@Accept json
 //	@Produce json
+//	 @Tags Person
 //	@Security BearerAuth
 //	@Param id path int true "Person's ID"
 //	@Param detail body dto.PersonUpdateReq true "Person's detail"

@@ -37,6 +37,7 @@ func (h *AccountHandler) Route(app *gin.Engine) {
 //	@Summary Account login
 //	@Description Account login using username & password combination.
 //	@Accept json
+//	 @Tags Account
 //	@Produce json
 //	@Param cred body dto.AccountLoginReq true "Credential"
 //	@Success 200 {object} dto.SuccessResponse[dto.AccountLoginResp]
@@ -72,16 +73,17 @@ func (h *AccountHandler) login(c *gin.Context) {
 
 // getProfile godoc
 //
-//	@Summary Get account's profile
-//	@Description Get profile of logged-in account.
-//	@Produce json
-//	@Security BearerAuth
-//	@Success 200 {object} dto.SuccessResponse[dto.AccountProfileResp]
-//	@Failure 401 {object} dto.ErrorResponse
-//	@Failure 403 {object} dto.ErrorResponse
-//	@Failure 404 {object} dto.ErrorResponse
-//	@Failure 500 {object} dto.ErrorResponse
-//	@Router /accounts [get]
+//		@Summary Get account's profile
+//		@Description Get profile of logged-in account.
+//		@Produce json
+//	 @Tags Account
+//		@Security BearerAuth
+//		@Success 200 {object} dto.SuccessResponse[dto.AccountProfileResp]
+//		@Failure 401 {object} dto.ErrorResponse
+//		@Failure 403 {object} dto.ErrorResponse
+//		@Failure 404 {object} dto.ErrorResponse
+//		@Failure 500 {object} dto.ErrorResponse
+//		@Router /accounts [get]
 func (h *AccountHandler) getProfile(c *gin.Context) {
 	accountID, _ := c.Get(server.ParamTokenUserID)
 

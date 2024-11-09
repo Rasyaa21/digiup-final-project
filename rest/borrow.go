@@ -35,6 +35,7 @@ func (h *BorrowHandler) Route(app *gin.Engine) {
 // @Summary Create a borrow record
 // @Description Create a new borrow record.
 // @Accept json
+// @Tags Borrow
 // @Produce json
 // @Param borrow body dto.BorrowReq true "Borrow data"
 // @Success 201 {object} dto.SuccessResponse[string]
@@ -66,6 +67,7 @@ func (h *BorrowHandler) create(c *gin.Context) {
 // @Summary Get a list of borrow records
 // @Description Retrieve a list of borrow records.
 // @Produce json
+// @Tags Borrow
 // @Param s query int false "Data offset"
 // @Param l query int false "Data limit"
 // @Success 200 {object} dto.SuccessResponse[[]dto.BorrowRes]
@@ -103,6 +105,7 @@ func (h *BorrowHandler) getList(c *gin.Context) {
 // @Summary Get borrow record by ID
 // @Description Retrieve a borrow record by ID.
 // @Produce json
+// @Tags Borrow
 // @Param id path int true "Borrow ID"
 // @Success 200 {object} dto.SuccessResponse[dto.BorrowRes]
 // @Failure 400 {object} dto.ErrorResponse
@@ -140,6 +143,7 @@ func (h *BorrowHandler) getByID(c *gin.Context) {
 // @Summary Update a borrow record
 // @Description Update a borrow record's information.
 // @Accept json
+// @Tags Borrow
 // @Produce json
 // @Param id path int true "Borrow ID"
 // @Param borrow body dto.BorrowReq true "Updated borrow data"
@@ -184,6 +188,7 @@ func (h *BorrowHandler) update(c *gin.Context) {
 // @Summary Delete a borrow record
 // @Description Delete a borrow record by ID.
 // @Produce json
+// @Tags Borrow
 // @Param id path int true "Borrow ID"
 // @Success 200 {object} dto.SuccessResponse[string]
 // @Failure 400 {object} dto.ErrorResponse

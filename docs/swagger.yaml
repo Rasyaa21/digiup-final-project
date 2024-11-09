@@ -17,6 +17,8 @@ definitions:
     properties:
       access_token:
         type: string
+      is_admin:
+        type: boolean
       refresh_token:
         type: string
     type: object
@@ -27,6 +29,118 @@ definitions:
       fullname:
         type: string
       gender:
+        type: string
+    type: object
+  dto.AuthorReq:
+    properties:
+      birth_date:
+        type: string
+      fullname:
+        maxLength: 50
+        minLength: 2
+        type: string
+      gender:
+        enum:
+        - m
+        - f
+        type: string
+    required:
+    - birth_date
+    - fullname
+    - gender
+    type: object
+  dto.AuthorRes:
+    properties:
+      birth_date:
+        type: string
+      fullname:
+        type: string
+      gender:
+        type: string
+    type: object
+  dto.AuthorUpdateReq:
+    properties:
+      fullname:
+        maxLength: 50
+        minLength: 2
+        type: string
+      id:
+        type: integer
+    required:
+    - id
+    type: object
+  dto.BookReq:
+    properties:
+      author_id:
+        type: integer
+      publisher_id:
+        type: integer
+      subtitle:
+        maxLength: 64
+        type: string
+      title:
+        maxLength: 56
+        minLength: 1
+        type: string
+    required:
+    - author_id
+    - publisher_id
+    - title
+    type: object
+  dto.BookRes:
+    properties:
+      author_id:
+        type: integer
+      created_at:
+        type: string
+      id:
+        type: integer
+      publisher_id:
+        type: integer
+      subtitle:
+        type: string
+      title:
+        type: string
+    type: object
+  dto.BookUpdateReq:
+    properties:
+      author_id:
+        type: integer
+      publisher_id:
+        type: integer
+      subtitle:
+        maxLength: 64
+        type: string
+      title:
+        maxLength: 56
+        minLength: 1
+        type: string
+    type: object
+  dto.BorrowReq:
+    properties:
+      book_id:
+        type: integer
+      borrow_date:
+        type: string
+      person_id:
+        type: integer
+      return_date:
+        type: string
+    required:
+    - book_id
+    - person_id
+    type: object
+  dto.BorrowRes:
+    properties:
+      book_id:
+        type: integer
+      borrow_date:
+        type: string
+      id:
+        type: integer
+      person_id:
+        type: integer
+      return_date:
         type: string
     type: object
   dto.ErrorResponse:
@@ -98,6 +212,42 @@ definitions:
         example: true
         type: boolean
     type: object
+  dto.SuccessResponse-array_dto_AuthorRes:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/dto.AuthorRes'
+        type: array
+      message:
+        type: string
+      success:
+        example: true
+        type: boolean
+    type: object
+  dto.SuccessResponse-array_dto_BookRes:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/dto.BookRes'
+        type: array
+      message:
+        type: string
+      success:
+        example: true
+        type: boolean
+    type: object
+  dto.SuccessResponse-array_dto_BorrowRes:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/dto.BorrowRes'
+        type: array
+      message:
+        type: string
+      success:
+        example: true
+        type: boolean
+    type: object
   dto.SuccessResponse-array_dto_PersonDetailResp:
     properties:
       data:
@@ -142,6 +292,36 @@ definitions:
         example: true
         type: boolean
     type: object
+  dto.SuccessResponse-dto_AuthorRes:
+    properties:
+      data:
+        $ref: '#/definitions/dto.AuthorRes'
+      message:
+        type: string
+      success:
+        example: true
+        type: boolean
+    type: object
+  dto.SuccessResponse-dto_BookRes:
+    properties:
+      data:
+        $ref: '#/definitions/dto.BookRes'
+      message:
+        type: string
+      success:
+        example: true
+        type: boolean
+    type: object
+  dto.SuccessResponse-dto_BorrowRes:
+    properties:
+      data:
+        $ref: '#/definitions/dto.BorrowRes'
+      message:
+        type: string
+      success:
+        example: true
+        type: boolean
+    type: object
   dto.SuccessResponse-dto_PersonDetailResp:
     properties:
       data:
@@ -156,6 +336,16 @@ definitions:
     properties:
       data:
         $ref: '#/definitions/dto.PublisherResp'
+      message:
+        type: string
+      success:
+        example: true
+        type: boolean
+    type: object
+  dto.SuccessResponse-string:
+    properties:
+      data:
+        type: string
       message:
         type: string
       success:
@@ -205,6 +395,8 @@ paths:
       security:
       - BearerAuth: []
       summary: Get account's profile
+      tags:
+      - Account
   /accounts/login:
     post:
       consumes:
@@ -237,6 +429,500 @@ paths:
           schema:
             $ref: '#/definitions/dto.ErrorResponse'
       summary: Account login
+      tags:
+      - Account
+  /authors:
+    get:
+      description: Get a list of authors.
+      parameters:
+      - description: Author's name
+        in: query
+        name: q
+        type: string
+      - description: Data offset
+        in: query
+        name: s
+        type: integer
+      - description: Data limit
+        in: query
+        name: l
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.SuccessResponse-array_dto_AuthorRes'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Get a list of authors
+      tags:
+      - Author
+    post:
+      consumes:
+      - application/json
+      description: Create a new author in the system.
+      parameters:
+      - description: Author data
+        in: body
+        name: author
+        required: true
+        schema:
+          $ref: '#/definitions/dto.AuthorReq'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.SuccessResponse-string'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Create an author
+      tags:
+      - Author
+  /authors/{id}:
+    delete:
+      description: Delete an author by their ID.
+      parameters:
+      - description: Author's ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.SuccessResponse-string'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Delete an author
+      tags:
+      - Author
+    get:
+      description: Get an author's detail by their ID.
+      parameters:
+      - description: Author's ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.SuccessResponse-dto_AuthorRes'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Get author by ID
+      tags:
+      - Author
+    put:
+      consumes:
+      - application/json
+      description: Update an existing author's information.
+      parameters:
+      - description: Author's ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Author's updated data
+        in: body
+        name: author
+        required: true
+        schema:
+          $ref: '#/definitions/dto.AuthorUpdateReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.SuccessResponse-any'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Update an author's details
+      tags:
+      - Author
+  /books:
+    get:
+      description: Retrieve a list of books.
+      parameters:
+      - description: Data offset
+        in: query
+        name: s
+        type: integer
+      - description: Data limit
+        in: query
+        name: l
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.SuccessResponse-array_dto_BookRes'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Get a list of books
+      tags:
+      - Book
+    post:
+      consumes:
+      - application/json
+      description: Create a new book.
+      parameters:
+      - description: Book data
+        in: body
+        name: book
+        required: true
+        schema:
+          $ref: '#/definitions/dto.BookReq'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.SuccessResponse-string'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Create a book
+      tags:
+      - Book
+  /books/{id}:
+    delete:
+      description: Delete a book by ID.
+      parameters:
+      - description: Book ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.SuccessResponse-string'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Delete a book
+      tags:
+      - Book
+    get:
+      description: Retrieve a book by ID.
+      parameters:
+      - description: Book ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.SuccessResponse-dto_BookRes'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Get book by ID
+      tags:
+      - Book
+    put:
+      consumes:
+      - application/json
+      description: Update book information.
+      parameters:
+      - description: Book ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated book data
+        in: body
+        name: book
+        required: true
+        schema:
+          $ref: '#/definitions/dto.BookUpdateReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.SuccessResponse-any'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Update a book
+      tags:
+      - Book
+  /borrows:
+    get:
+      description: Retrieve a list of borrow records.
+      parameters:
+      - description: Data offset
+        in: query
+        name: s
+        type: integer
+      - description: Data limit
+        in: query
+        name: l
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.SuccessResponse-array_dto_BorrowRes'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Get a list of borrow records
+      tags:
+      - Borrow
+    post:
+      consumes:
+      - application/json
+      description: Create a new borrow record.
+      parameters:
+      - description: Borrow data
+        in: body
+        name: borrow
+        required: true
+        schema:
+          $ref: '#/definitions/dto.BorrowReq'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.SuccessResponse-string'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Create a borrow record
+      tags:
+      - Borrow
+  /borrows/{id}:
+    delete:
+      description: Delete a borrow record by ID.
+      parameters:
+      - description: Borrow ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.SuccessResponse-string'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Delete a borrow record
+      tags:
+      - Borrow
+    get:
+      description: Retrieve a borrow record by ID.
+      parameters:
+      - description: Borrow ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.SuccessResponse-dto_BorrowRes'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Get borrow record by ID
+      tags:
+      - Borrow
+    put:
+      consumes:
+      - application/json
+      description: Update a borrow record's information.
+      parameters:
+      - description: Borrow ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated borrow data
+        in: body
+        name: borrow
+        required: true
+        schema:
+          $ref: '#/definitions/dto.BorrowReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.SuccessResponse-any'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
+      summary: Update a borrow record
+      tags:
+      - Borrow
   /persons:
     get:
       description: Get a list of person.
@@ -260,6 +946,10 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/dto.SuccessResponse-array_dto_PersonDetailResp'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponse'
         "404":
           description: Not Found
           schema:
@@ -273,6 +963,8 @@ paths:
           schema:
             $ref: '#/definitions/dto.ErrorResponse'
       summary: Get a list of person
+      tags:
+      - Person
   /persons/{id}:
     get:
       description: Get a person's detail.
@@ -302,6 +994,8 @@ paths:
           schema:
             $ref: '#/definitions/dto.ErrorResponse'
       summary: Get a person's detail
+      tags:
+      - Person
     put:
       consumes:
       - application/json
@@ -348,6 +1042,8 @@ paths:
       security:
       - BearerAuth: []
       summary: Update a person's detail
+      tags:
+      - Person
   /publishers:
     get:
       description: Get a list of publishers.
@@ -384,6 +1080,8 @@ paths:
           schema:
             $ref: '#/definitions/dto.ErrorResponse'
       summary: Get a list of publishers
+      tags:
+      - Publisher
     post:
       consumes:
       - application/json
@@ -421,6 +1119,8 @@ paths:
       security:
       - BearerAuth: []
       summary: Create a publisher
+      tags:
+      - Publisher
   /publishers/{id}:
     delete:
       description: Delete a publisher.
@@ -460,6 +1160,8 @@ paths:
       security:
       - BearerAuth: []
       summary: Delete a publisher
+      tags:
+      - Publisher
     get:
       description: Get a publisher's detail.
       parameters:
@@ -488,6 +1190,8 @@ paths:
           schema:
             $ref: '#/definitions/dto.ErrorResponse'
       summary: Get a publisher's detail
+      tags:
+      - Publisher
     put:
       consumes:
       - application/json
@@ -538,6 +1242,8 @@ paths:
       security:
       - BearerAuth: []
       summary: Update a publisher's detail
+      tags:
+      - Publisher
 securityDefinitions:
   BearerAuth:
     description: Bearer auth containing JWT
