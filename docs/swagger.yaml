@@ -358,12 +358,12 @@ externalDocs:
 host: localhost:3000
 info:
   contact:
-    email: mark.p.e.muhammad@gmail.com
-    name: Mark Muhammad
-  description: This is a boilerplate project, please update accordingly.
+    email: naufalrasya21907@gmail.com
+    name: Rasya
+  description: API Sistem Peminjaman Buku Tugas Akhir Telkom Digiup
   license:
     name: MIT
-  title: Base API Service
+  title: Sistem Peminjaman Buku API
   version: "1.0"
 paths:
   /accounts:

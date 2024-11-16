@@ -14,12 +14,12 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
-//	@title			Base API Service
+//	@title			Sistem Peminjaman Buku API
 //	@version		1.0
-//	@description	This is a boilerplate project, please update accordingly.
+//	@description	API Sistem Peminjaman Buku Tugas Akhir Telkom Digiup
 
-//	@contact.name	Mark Muhammad
-//	@contact.email	mark.p.e.muhammad@gmail.com
+//	@contact.name	Rasya
+//	@contact.email	naufalrasya21907@gmail.com
 
 //	@license.name	MIT
 

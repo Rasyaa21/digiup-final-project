@@ -10,8 +10,8 @@ const docTemplate = `{
         "description": "{{escape .Description}}",
         "title": "{{.Title}}",
         "contact": {
-            "name": "Mark Muhammad",
-            "email": "mark.p.e.muhammad@gmail.com"
+            "name": "Rasya",
+            "email": "naufalrasya21907@gmail.com"
         },
         "license": {
             "name": "MIT"
@@ -1904,8 +1904,8 @@ var SwaggerInfo = &swag.Spec{
 	Host:             "localhost:3000",
 	BasePath:         "/v1",
 	Schemes:          []string{},
-	Title:            "Base API Service",
-	Description:      "This is a boilerplate project, please update accordingly.",
+	Title:            "Sistem Peminjaman Buku API",
+	Description:      "API Sistem Peminjaman Buku Tugas Akhir Telkom Digiup",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

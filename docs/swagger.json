@@ -1,11 +1,11 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "This is a boilerplate project, please update accordingly.",
-        "title": "Base API Service",
+        "description": "API Sistem Peminjaman Buku Tugas Akhir Telkom Digiup",
+        "title": "Sistem Peminjaman Buku API",
         "contact": {
-            "name": "Mark Muhammad",
-            "email": "mark.p.e.muhammad@gmail.com"
+            "name": "Rasya",
+            "email": "naufalrasya21907@gmail.com"
         },
         "license": {
             "name": "MIT"
